@@ -2,35 +2,19 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>PALAN HYPE AGENCY | Универсальный маркетплейс с чатом</title>
+  <title>PALAN HYPE AGENCY</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/10.7.2/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.7.2/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.7.2/firebase-firestore.js"></script>
   <style>
     body { background: #232846; color: #fff; font-family: 'Montserrat', Arial, sans-serif; margin: 0;}
-    header { background: #232846; box-shadow: 0 2px 14px #13142C44; position: sticky; top: 0; z-index: 100;}
-    .brandbar { display: flex; align-items: center; justify-content: space-between; padding: 24px 32px 14px 32px; max-width:1460px;margin:0 auto;}
-    .logo-left { color: gold; font-size:2.15em;font-weight:bold;letter-spacing:1px;}
-    .main-nav button { color: #FFD700; margin: 0 10px; font-weight: 700; text-decoration: none; font-size: 1.12em; background: none; border: none; cursor:pointer; transition:color .16s;}
-    .main-nav button:hover { color: #0ebae9;}
-    .main-nav .active { color: #229ed9; border-bottom:2px solid #229ed9;}
-    .admin-btn {background:#222e57;color:#FFD700;padding:7px 16px;border-radius:10px;font-weight:700;margin-left:12px;}
-    .admin-btn:hover {background:#229ed9;color:#fff;}
-    .auth-bar { display: flex; gap: 16px;}
-    .auth-btn { background: #FFD700; color: #242424; border: none; border-radius: 9px; font-weight: bold; font-size: 1em; padding: 8px 19px; cursor: pointer; box-shadow: 0 2px 14px #333; transition: background .14s;}
-    .auth-btn:hover { background: #229ed9;color:#fff;}
-    .cabinet-box {background:#283060;border-radius:13px;padding:21px;margin:17px 0 11px 0;color:#ffd700;}
-    .cabinet-box input {margin:3px 0;}
-    .zayavka-box {border:1px solid #444;padding:8px;margin:6px 0 9px 0;border-radius:7px;background:#262f47;}
-    .cabinet-photo {width:95px;height:95px;border-radius:50%;border:3px solid gold;margin-bottom:16px;object-fit:cover;}
-    .admin-area {background:#eee;color:#111;padding:24px;border-radius:14px;margin:24px 0;}
-    #chat-window {width:98%;max-width:700px;height:340px;background:#32395C;border-radius:13px;padding:19px 13px;overflow-y:auto;font-size:1.08em;box-shadow:0 2px 13px #171A2B55;margin-bottom:17px;}
-    #appStatus, #profileEditStatus{color:#FFD700;}
-    .chat-section{flex-direction:column;align-items:center;gap:16px;}
-    .admin-zayavki-list{margin:0;padding:0;}
-    .admin-zayavki-list>li{margin-bottom:1em;}
+    .brandbar { display: flex; align-items: center; justify-content: space-between; padding: 24px 32px 14px 32px; }
+    .logo-left { color: gold; font-size:2.15em;font-weight:bold;}
+    .main-nav button, .admin-btn { background: none; border:none; color:#FFD700; font-weight:bold; margin:0 10px; font-size:1.1em; cursor:pointer;}
+    .auth-bar { display:flex; gap:12px;}
+    .auth-btn { background: #FFD700; color: #242424; border: none; border-radius: 9px; font-weight: bold; font-size: 1em; padding: 7px 19px; cursor:pointer;}
+    .main-nav .active { color:#229ed9; border-bottom:2px solid #229ed9;}
+    .section { display:none; flex-direction:column;}
+    .section.active { display:flex;}
+    /* Минимальные стили для проверки */
   </style>
 </head>
 <body>
@@ -38,120 +22,55 @@
     <div class="brandbar">
       <div class="logo-left">PALAN HYPE AGENCY</div>
       <nav class="main-nav">
-        <button id="nav-main" onclick="showSection('main')">Главная</button>
+        <button id="nav-main" class="active" onclick="showSection('main')">Главная</button>
         <button id="nav-hosts" onclick="showSection('hosts')">Ведущие</button>
         <button id="nav-musicians" onclick="showSection('musicians')">Музыканты</button>
         <button id="nav-chat" onclick="showSection('chat')">Чат</button>
         <button id="nav-reviews" onclick="showSection('reviews')">Отзывы</button>
         <button id="nav-contacts" onclick="showSection('contacts')">Контакты</button>
         <button class="admin-btn" onclick="showSection('admin')">Админка</button>
-        <a href="https://t.me/RX7mBatogqBiMzA6ht" target="_blank" style="background:#229ed9;color:#fff;padding:5px 13px;border-radius:10px;font-weight:700;">🔔 Telegram</a>
       </nav>
       <div class="auth-bar" id="authBar">
-        <button class="auth-btn" onclick="document.getElementById('modal-login').style.display='block'">Войти</button>
-        <button class="auth-btn" onclick="document.getElementById('modal-register').style.display='block'">Регистрация</button>
+        <button class="auth-btn" onclick="alert('Вход работает!')">Войти</button>
+        <button class="auth-btn" onclick="alert('Регистрация работает!')">Регистрация</button>
       </div>
     </div>
-    <div class="tg-topbar">
-      🔔 Наш Telegram-канал <a href="https://t.me/RX7mBatogqBiMzA6ht" target="_blank">PALAN Agency Events Чувашия</a>
-    </div>
-    <div class="under-tg">Все акции, лучшие мастера, свежие анонсы — только здесь!</div>
   </header>
-  <div id="section-main" class="active-section" style="flex-direction:column;align-items:center;gap:22px;">
-    <h1>PALAN Hype Agency — современный маркетплейс артистов</h1>
-    <div style="font-size:1.15em;background:#32395C;padding:33px 27px;border-radius:17px;box-shadow:0 8px 38px #171B3288;max-width:620px;">
-      Добро пожаловать! Здесь вы можете быстро найти ведущего, музыканта или шоу для вашего мероприятия, оставить заявку и оплатить онлайн.
-    </div>
+  <div id="section-main" class="section active">
+    <h2>PALAN Hype Agency — современный маркетплейс артистов</h2>
+    <div>Добро пожаловать! Найдите артиста, оставьте заявку и оплатите онлайн.</div>
   </div>
-  <div id="section-hosts" class="cards" style="display:none;"></div>
-  <div id="section-musicians" class="musicians" style="display:none;"></div>
-  <div id="section-chat" class="chat-section" style="display:none;">
-    <h1>Чат заявок</h1>
-    <div id="chat-window"></div>
-    <form id="chat-form">
-      <select id="chat-role" required>
-        <option value="">Роль</option>
-        <option value="Клиент">Клиент</option>
-        <option value="Ведущий">Ведущий</option>
-        <option value="Админ">Админ</option>
-      </select>
-      <input type="text" id="chat-name" placeholder="Ваше имя" required>
-      <input type="text" id="chat-msg" placeholder="Введите заявку или ответ..." required>
-      <button class="auth-btn" type="submit">Отправить</button>
-    </form>
+  <div id="section-hosts" class="section">
+    <h2>Ведущие</h2>
   </div>
-  <div id="section-reviews" class="reviews" style="display:none;"></div>
-  <div id="section-contacts" class="contacts" style="display:none;">
-    <div class="section-title">Контакты</div>
+  <div id="section-musicians" class="section">
+    <h2>Музыканты</h2>
+  </div>
+  <div id="section-chat" class="section">
+    <h2>Чат заявок</h2>
+  </div>
+  <div id="section-reviews" class="section">
+    <h2>Отзывы</h2>
+  </div>
+  <div id="section-contacts" class="section">
+    <h2>Контакты</h2>
     Email: <a href="mailto:contact@palan-agency.ru">contact@palan-agency.ru</a>
-    <br>
-    Telegram-канал: <a href="https://t.me/RX7mBatogqBiMzA6ht" target="_blank">@PALAN Agency Events Чувашия</a>
-    <br>
-    <b>Адрес:</b> Москва, ул. Реальная, 21, офис 5B
   </div>
-  <div id="cabinetContainer" style="display:none;"></div>
-  <div id="adminSection" style="display:none;"></div>
-  <div id="modal-login" class="modal" style="display:none;">
-    <div class="modal-content">
-      <h2>Вход в аккаунт</h2>
-      <form id="loginForm">
-        <input type="email" id="loginEmail" placeholder="E-mail" required style="width:98%;margin-bottom:12px;">
-        <input type="password" id="loginPassword" placeholder="Пароль" required style="width:98%;margin-bottom:12px;">
-        <button class="auth-btn" type="submit">Войти</button>
-      </form>
-      <div style="text-align:center;margin-top:13px;">
-        <button class="auth-btn" style="background:#229ed9;color:#fff;" onclick="showModal('register')">Регистрация</button>
-      </div>
-      <button onclick="closeAllModals()" style="margin-top:23px;background:#262D47;color:#FFD700;border-radius:6px;padding:9px 20px;">Закрыть</button>
-    </div>
+  <div id="section-admin" class="section">
+    <h2>Админка</h2>
   </div>
-  <div id="modal-register" class="modal" style="display:none;">
-    <div class="modal-content">
-      <h2>Регистрация нового пользователя</h2>
-      <form id="regForm">
-        <input type="text" id="regName" placeholder="Ваше имя" required style="width:98%;margin-bottom:12px;">
-        <input type="email" id="regEmail" placeholder="E-mail" required style="width:98%;margin-bottom:12px;">
-        <input type="password" id="regPassword" placeholder="Пароль" required style="width:98%;margin-bottom:12px;">
-        <select id="regRole" required style="width:98%;margin-bottom:15px;">
-          <option value="">Я — ...</option>
-          <option value="client">Клиент/Заказчик</option>
-          <option value="host">Ведущий/Артист</option>
-          <option value="admin">Админ</option>
-        </select>
-        <button class="auth-btn" type="submit">Зарегистрироваться</button>
-      </form>
-      <div style="text-align:center;margin-top:11px;">
-        <button class="auth-btn" style="background:#229ed9;color:#fff;" onclick="showModal('login')">Есть аккаунт – Войти</button>
-      </div>
-      <button onclick="closeAllModals()" style="margin-top:23px;background:#262D47;color:#FFD700;border-radius:6px;padding:9px 20px;">Закрыть</button>
-    </div>
-  </div>
-  <div id="modal-pay" class="modal" style="display:none;"><div class="modal-content">
-    <h2 style="color:gold;">Заявка и онлайн оплата</h2>
-    <form id="zayavkaForm">
-      <input type="text" id="payName" placeholder="Имя" required style="width:98%;margin-bottom:10px;">
-      <input type="email" id="payEmail" placeholder="E-mail" required style="width:98%;margin-bottom:10px;">
-      <input type="tel" id="payPhone" placeholder="Телефон" required style="width:98%;margin-bottom:10px;">
-      <input type="date" id="payDate" required style="width:98%;margin-bottom:12px;">
-      <button style="background:gold;color:#23253a;border-radius:8px;padding:9px 18px;">Продолжить</button>
-    </form>
-    <div id="paybox-tinkoff" style="display:none;margin-top:17px;">
-      <form action="https://securepay.tinkoff.ru/invoice/..." method="POST" target="_blank">
-        <input type="hidden" name="terminalkey" value="ТВОЙ_TERMINAL_KEY">
-        <input type="hidden" name="amount" value="20000">
-        <input type="hidden" name="description" value="Бронирование ведущего">
-        <input type="hidden" name="name" id="tinkName">
-        <input type="hidden" name="email" id="tinkEmail">
-        <input type="hidden" name="phone" id="tinkPhone">
-        <button type="submit" style="background:gold;color:#23253a;border-radius:8px;padding:10px 28px;">Оплатить бронь</button>
-      </form>
-    </div>
-    <button onclick="closeAllModals()" style="margin-top:23px;background:#262D47;color:#FFD700;border-radius:6px;padding:9px 20px;">Закрыть</button>
-  </div></div>
-  <!-- === ВСЯ JS-ЛОГИКА В КОНЦЕ: === -->
   <script>
-    // Тот же скрипт, что был — БЕЗ изменений, весь В КОНЦЕ ФАЙЛА!
-    // ... (Весь JS, который я уже присылал выше. Скопируй полностью)
+    // Механизм переключения секций — работает безо всяких зависимостей
+    function showSection(name) {
+      ['main','hosts','musicians','chat','reviews','contacts','admin'].forEach(s=>{
+        document.getElementById('section-'+s).classList.remove('active');
+        let nav=document.getElementById('nav-'+s);
+        if(nav)nav.classList.remove('active');
+      });
+      document.getElementById('section-'+name).classList.add('active');
+      let nav=document.getElementById('nav-'+name);
+      if(nav)nav.classList.add('active');
+    }
   </script>
 </body>
 </html>
