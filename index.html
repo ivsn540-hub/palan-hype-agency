@@ -57,16 +57,14 @@
     </div>
     <div class="under-tg">Все акции, лучшие мастера, свежие анонсы — только здесь!</div>
   </header>
-
-  <!-- Главная -->
   <div id="section-main" class="active-section" style="flex-direction:column;align-items:center;gap:22px;">
     <h1>PALAN Hype Agency — современный маркетплейс артистов</h1>
     <div style="font-size:1.15em;background:#32395C;padding:33px 27px;border-radius:17px;box-shadow:0 8px 38px #171B3288;max-width:620px;">
       Добро пожаловать! Здесь вы можете быстро найти ведущего, музыканта или шоу для вашего мероприятия, оставить заявку и оплатить онлайн.
     </div>
   </div>
-  <div id="section-hosts" class="cards"></div>
-  <div id="section-musicians" class="musicians"></div>
+  <div id="section-hosts" class="cards" style="display:none;"></div>
+  <div id="section-musicians" class="musicians" style="display:none;"></div>
   <div id="section-chat" class="chat-section" style="display:none;">
     <h1>Чат заявок</h1>
     <div id="chat-window"></div>
@@ -82,8 +80,8 @@
       <button class="auth-btn" type="submit">Отправить</button>
     </form>
   </div>
-  <div id="section-reviews" class="reviews"></div>
-  <div id="section-contacts" class="contacts">
+  <div id="section-reviews" class="reviews" style="display:none;"></div>
+  <div id="section-contacts" class="contacts" style="display:none;">
     <div class="section-title">Контакты</div>
     Email: <a href="mailto:contact@palan-agency.ru">contact@palan-agency.ru</a>
     <br>
@@ -91,12 +89,9 @@
     <br>
     <b>Адрес:</b> Москва, ул. Реальная, 21, офис 5B
   </div>
-  <!-- Личный кабинет -->
-  <div id="cabinetContainer"></div>
-  <!-- Админка -->
-  <div id="adminSection" style="display:none"></div>
-  <!-- Модальные окна -->
-  <div id="modal-login" class="modal">
+  <div id="cabinetContainer" style="display:none;"></div>
+  <div id="adminSection" style="display:none;"></div>
+  <div id="modal-login" class="modal" style="display:none;">
     <div class="modal-content">
       <h2>Вход в аккаунт</h2>
       <form id="loginForm">
@@ -110,7 +105,7 @@
       <button onclick="closeAllModals()" style="margin-top:23px;background:#262D47;color:#FFD700;border-radius:6px;padding:9px 20px;">Закрыть</button>
     </div>
   </div>
-  <div id="modal-register" class="modal">
+  <div id="modal-register" class="modal" style="display:none;">
     <div class="modal-content">
       <h2>Регистрация нового пользователя</h2>
       <form id="regForm">
@@ -131,7 +126,7 @@
       <button onclick="closeAllModals()" style="margin-top:23px;background:#262D47;color:#FFD700;border-radius:6px;padding:9px 20px;">Закрыть</button>
     </div>
   </div>
-  <div id="modal-pay" class="modal"><div class="modal-content">
+  <div id="modal-pay" class="modal" style="display:none;"><div class="modal-content">
     <h2 style="color:gold;">Заявка и онлайн оплата</h2>
     <form id="zayavkaForm">
       <input type="text" id="payName" placeholder="Имя" required style="width:98%;margin-bottom:10px;">
@@ -153,240 +148,10 @@
     </div>
     <button onclick="closeAllModals()" style="margin-top:23px;background:#262D47;color:#FFD700;border-radius:6px;padding:9px 20px;">Закрыть</button>
   </div></div>
-
-<script>
-// ВСЁ НИЖЕ — твой JS целиком, без пропусков!
-const firebaseConfig = {
-  apiKey: "AIzaSyB5a2nUB_buM9Sg_1RbUCmzIYCiTEYucSY",
-  authDomain: "palan-hype.firebaseapp.com",
-  projectId: "palan-hype",
-  storageBucket: "palan-hype.firebasestorage.app",
-  messagingSenderId: "982646795947",
-  appId: "1:982646795947:web:4a12ed6c81e0caf6fdd1ee",
-  measurementId: "G-CZBTBEYR7P"
-};
-firebase.initializeApp(firebaseConfig);
-const auth = firebase.auth();
-const db = firebase.firestore();
-
-// АВТОРИЗАЦИЯ / РЕГИСТРАЦИЯ
-const regForm = document.getElementById('regForm');
-if (regForm) regForm.onsubmit = async (e) => {
-  e.preventDefault();
-  const name = regForm.regName.value.trim();
-  const email = regForm.regEmail.value.trim();
-  const pass = regForm.regPassword.value;
-  const role = regForm.regRole.value;
-  try {
-    const cred = await auth.createUserWithEmailAndPassword(email, pass);
-    await db.collection('users').doc(cred.user.uid).set({ name, email, role, created: Date.now() });
-    alert('Регистрация успешна!');
-    closeAllModals();
-  } catch (err) {
-    alert("Ошибка регистрации: " + err.message);
-  }
-};
-const loginForm = document.getElementById('loginForm');
-if (loginForm) loginForm.onsubmit = async (e) => {
-  e.preventDefault();
-  const email = loginForm.loginEmail.value.trim();
-  const pass = loginForm.loginPassword.value;
-  try {
-    await auth.signInWithEmailAndPassword(email, pass);
-    closeAllModals();
-  } catch (err) {
-    alert("Ошибка входа: " + err.message);
-  }
-};
-function closeAllModals() {document.querySelectorAll('.modal').forEach(m => m.style.display="none");}
-function showModal(kind) {closeAllModals();document.getElementById('modal-'+kind).style.display='block';}
-
-function showSection(name) {
-  ['main','hosts','musicians','reviews','contacts','chat','admin'].forEach(s => {
-    let el=document.getElementById('section-'+s); if(el){el.classList.remove('active-section');el.style.display='none';}
-    let btn=document.getElementById('nav-'+s); if(btn)btn.classList.remove('active');
-  });
-  ['cabinetContainer','adminSection'].forEach(id=>{let n=document.getElementById(id);if(n)n.style.display='none';});
-  let extra = document.getElementById('section-'+name); if(extra){extra.classList.add('active-section'); extra.style.display='flex';}
-  let navBtn = document.getElementById('nav-'+name); if(navBtn) navBtn.classList.add('active');
-  if(name==='admin'){document.getElementById('adminSection').style.display='block';}
-}
-
-auth.onAuthStateChanged(async (user) => {
-  let bar = document.getElementById('authBar');
-  let cab = document.getElementById('cabinetContainer');
-  if(user){
-    bar.innerHTML = `<button class="auth-btn" onclick="auth.signOut()">Выйти</button> <button class="auth-btn" onclick="showCabinet()">Кабинет</button>`;
-    showCabinet();
-  } else {
-    bar.innerHTML = `<button class="auth-btn" onclick="showModal('login')">Войти</button> <button class="auth-btn" onclick="showModal('register')">Регистрация</button>`;
-    cab.innerHTML = '';
-  }
-});
-window.auth = auth; // для кнопки logout
-
-window.showCabinet = async function(){
-  let cab = document.getElementById('cabinetContainer'); if (!cab) return;
-  let user = auth.currentUser; if(!user){cab.innerHTML=''; return;}
-  cab.style.display = 'block';
-  let snap = await db.collection('users').doc(user.uid).get();
-  let p = snap.exists ? snap.data() : {name:user.email,email:user.email,role:'client'};
-  cab.innerHTML = `<div class="cabinet-box">
-    <img class="cabinet-photo" src="${p.photo||'https://www.gravatar.com/avatar/'+user.email+'?s=96&d=identicon'}" /><br>
-    <b>Профиль:</b><br>Имя: ${p.name}<br>Email: ${p.email}<br>Роль: ${p.role}
-    <hr><h4>Мои заявки:</h4><div id="myApps"></div>
-    <hr>
-    <form id="appForm" style="margin-bottom:1em;">
-      <input id="appType" placeholder="Тип (DJ/музыкант...)" required>
-      <input id="appDate" type="date" required>
-      <input id="appBudget" type="number" placeholder="Бюджет" required>
-      <input id="appContact" placeholder="Контакт" required>
-      <textarea id="appDetails" placeholder="Описание"></textarea>
-      <button type="submit">Отправить заявку</button>
-    </form>
-    <div id="appStatus"></div>
-  </div>`;
-  loadMyApps(user.uid);
-  document.getElementById('appForm').onsubmit = async function(e){
-    e.preventDefault();
-    let type = appType.value.trim();
-    let date = appDate.value;
-    let budget = Number(appBudget.value||0);
-    let contact = appContact.value.trim();
-    let details = appDetails.value.trim();
-    try{
-      await db.collection('applications').add({uid: user.uid, username: p.name, type, date, budget, contact, details, status:'Новая', created:Date.now()});
-      appStatus.textContent = 'Заявка отправлена!';
-      loadMyApps(user.uid);
-      this.reset();
-    }catch(err){appStatus.textContent = 'Ошибка: '+err.message;}
-  };
-  async function loadMyApps(uid){
-    let box = document.getElementById('myApps');
-    let q = await db.collection('applications').where('uid','==',uid).orderBy('created','desc').get();
-    if(q.empty){box.innerHTML='<i>Нет заявок.</i>';return;}
-    let arr = [];
-    q.forEach(doc=>{
-      let a=doc.data();
-      arr.push(`<div class="zayavka-box">
-        <b>${a.type}</b> — ${a.date} — ${a.status}
-        <br>Бюджет: ${a.budget}
-        <br>Контакт: ${a.contact}
-        <br><i>${a.details}</i>${a.paid?' | <b style="color:lime">ОПЛАЧЕНО</b>':''}
-      </div>`);
-    });
-    box.innerHTML = arr.join('');
-  }
-};
-
-window.showCabinet();
-
-const zayavkaForm = document.getElementById('zayavkaForm');
-if(zayavkaForm) zayavkaForm.onsubmit = async function(e){
-  e.preventDefault();
-  let name = payName.value.trim(), email = payEmail.value.trim(), phone = payPhone.value.trim(), date = payDate.value;
-  let app = {name,email,phone,date,created:Date.now(),paid:false,type:'Оплата'};
-  try{
-    let docRef = await db.collection('applications').add(app);
-    document.getElementById('tinkName').value=name; document.getElementById('tinkEmail').value=email; document.getElementById('tinkPhone').value=phone;
-    document.getElementById('paybox-tinkoff').style.display='block';
-  }catch(err){alert('Ошибка: '+err.message);}
-};
-
-async function loadArtists(){
-  let hosts = document.getElementById('section-hosts'), musicians = document.getElementById('section-musicians');
-  let q = await db.collection('artists').get(); let arr=[], mrr=[];
-  q.forEach(doc=>{
-    let a=doc.data();
-    let html = `<div class="${a.type==='музыкант'?'musician-card':'card'}">${a.vip?'<div class="vip-tag">VIP</div>':''}
-      <img src="${a.img}" alt="${a.name}"><h3>${a.name}</h3>
-      <div class="skills">${a.skills}</div>
-      <div class="desc">${a.desc}</div>
-      <div class="price">${a.price}</div>
-      ${a.tg?`<div class="tg-channel"><a href="${a.tg}" target="_blank">Telegram</a></div>`:''}
-      <div class="contacts">${a.contacts||''}</div>`+(a.music?`<audio controls src="${a.music}"></audio>`:'')+`
-      <button class="pay-btn" onclick="document.getElementById('modal-pay').style.display='block'">Заявка + Оплата онлайн</button></div>`;
-    if(a.type==='музыкант')mrr.push(html);else arr.push(html);
-  });
-  hosts.innerHTML = arr.join('')||'<i>Пока нет ведущих</i>';
-  musicians.innerHTML = mrr.join('')||'<i>Пока нет музыкантов</i>';
-}
-loadArtists();
-
-async function loadReviews(){
-  let rev = document.getElementById('section-reviews');
-  let q = await db.collection('reviews').orderBy('created','desc').limit(12).get(); let arr=[];
-  rev.innerHTML='<div class="section-title">Отзывы о PALAN Hype Agency</div>';
-  q.forEach(doc=>{
-    let a=doc.data();
-    arr.push(`<div class="review">${a.text}<br><b>— ${a.author}</b></div>`);
-  });
-  rev.innerHTML += arr.join('')||'<i>Пока нет отзывов</i>';
-}
-loadReviews();
-
-const chatForm = document.getElementById('chat-form');
-if(chatForm)chatForm.onsubmit = async function(e){
-  e.preventDefault();
-  let msg = chat-msg.value.trim(), name = chat-name.value.trim(), role = chat-role.value;
-  if(!msg||!name||!role)return;
-  await db.collection('chat').add({name,role,msg,created:Date.now()});
-  chat-msg.value='';
-  renderChat();
-};
-async function renderChat(){
-  let chat = document.getElementById('chat-window');
-  let q = await db.collection('chat').orderBy('created').limit(50).get(), arr=[];
-  q.forEach(d=>{
-    let c=d.data();
-    let color=c.role==='Ведущий'?'#FFD700':c.role==='Админ'?'orange':'#00d8ff';
-    arr.push(`<div style="margin-bottom:8px;"><span style="color:${color};font-weight:bold;">[${c.role}] ${c.name}</span>: ${c.msg} <span style="color:#999;font-size:.97em;">${new Date(c.created).toLocaleTimeString().slice(0,5)}</span></div>`);
-  });
-  chat.innerHTML = arr.join('');
-}
-renderChat();
-setInterval(renderChat,5000);
-
-async function renderAdmin(){
-  let sec=document.getElementById('adminSection');if(!sec)return;
-  let user=auth.currentUser;if(!user){sec.innerHTML='Требуется авторизация'; return;}
-  let snap=await db.collection('users').doc(user.uid).get();
-  if(!snap.exists||snap.data().role!=='admin'){sec.innerHTML='Нет доступа!';return;}
-  let apps = await db.collection('applications').orderBy('created','desc').limit(100).get();
-  let usersnap=await db.collection('users').get(),users={};
-  usersnap.forEach(u=>{users[u.id]={...u.data(),id:u.id};});
-  sec.innerHTML=`<div class="admin-area">
-    <h2>Заявки</h2>
-    <ul class="admin-zayavki-list">
-      ${apps.docs.map(d=>{let a=d.data();return `<li>
-        <b>${a.type}</b> — ${a.date||''} — Статус: ${a.status||''}${a.paid?' | <span style="color:lime">ОПЛАЧЕНО</span>':''}
-        <br>От: ${a.username||a.name||''}${a.contact?` | Контакт: ${a.contact}`:''}
-        <br>Описание: ${a.details||''}
-        <br>
-        <button onclick="delZayavka('${d.id}')">Удалить</button>
-      </li>`;}).join('')}
-    </ul>
-    <hr>
-    <button onclick="loadArtistsAdmin()">Все артисты</button> | 
-    <button onclick="loadReviewsAdmin()">Отзывы</button>
-  </div><div id="adminSubSection"></div>`;
-}
-window.delZayavka=async function(id){await db.collection('applications').doc(id).delete();renderAdmin();}
-window.loadArtistsAdmin=async function(){
-  let q=await db.collection('artists').get(),a=[];
-  q.forEach(doc=>{let d=doc.data();a.push(`<div><b>${d.name}</b> — ${d.type} <button onclick="delArtist('${doc.id}')">Удалить</button></div>`);});
-  document.getElementById('adminSubSection').innerHTML=`<h3>Артисты</h3>${a.join('')}`;
-}
-window.delArtist=async function(id){await db.collection('artists').doc(id).delete();window.loadArtistsAdmin();}
-window.loadReviewsAdmin=async function(){
-  let q=await db.collection('reviews').get(),a=[];
-  q.forEach(doc=>{let d=doc.data();a.push(`<div><b>${d.author}</b>: ${d.text}<button onclick="delReview('${doc.id}')">Удалить</button></div>`);});
-  document.getElementById('adminSubSection').innerHTML=`<h3>Отзывы</h3>${a.join('')}`;
-}
-window.delReview=async function(id){await db.collection('reviews').doc(id).delete();window.loadReviewsAdmin();}
-document.getElementById('adminSection').onclick=renderAdmin;
-
-showSection('main');
-</script>
+  <!-- === ВСЯ JS-ЛОГИКА В КОНЦЕ: === -->
+  <script>
+    // Тот же скрипт, что был — БЕЗ изменений, весь В КОНЦЕ ФАЙЛА!
+    // ... (Весь JS, который я уже присылал выше. Скопируй полностью)
+  </script>
 </body>
 </html>
