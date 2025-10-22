@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Диджеи Чебоксар | HYPE MARKETPLACE</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {background:#262D47;color:#fff;font-family:'Montserrat',Arial,sans-serif;margin:0;padding:32px;}
+    h1 {color:gold;text-align:center;margin-top:40px;font-size:2.2em;font-weight:bold;letter-spacing:2px;margin-bottom:32px;}
+    .cards {display:flex;flex-wrap:wrap;gap:32px;justify-content:center;}
+    .card {background:#32395C;border-radius:14px;box-shadow:0 6px 24px #181A2B;padding:22px;width:320px;display:flex;flex-direction:column;align-items:center;transition:.2s;position:relative;}
+    .card img {width:110px;height:110px;border-radius:50%;object-fit:cover;border:3px solid gold;margin-bottom:14px;}
+    .card h3 {color:gold;font-size:1.14em;margin-bottom:5px;font-weight:bold;}
+    .card .skills {color:deepskyblue;font-size:.98em;margin-bottom:7px;}
+    .card .desc {font-size:0.95em;color:#eee;text-align:center;margin-bottom:8px;}
+    .card .price {color:orange;font-weight:bold;margin-bottom:8px;}
+    audio {width:calc(100% - 8px);margin-bottom:3px;}
+    .pay-btn {background:gold;color:#23253a;border-radius:8px;font-weight:bold;padding:12px 19px;box-shadow:0 2px 14px #333;margin-top:12px;margin-bottom:8px;cursor:pointer;border:none;}
+  </style>
+</head>
+<body>
+  <h1>Диджеи Чебоксар | HYPE MARKETPLACE</h1>
+  <div class="cards">
+    <div class="card">
+      <img src="images/dj1.jpg" alt="DJ Alex Wave">
+      <h3>DJ Алекс Wave</h3>
+      <div class="skills">House, Pop, Tech, Вокальное шоу</div>
+      <div class="desc">10+ лет на сцене, автор миксов для FM, свое оборудование.</div>
+      <div class="price">от 14 000 ₽</div>
+      <audio controls><source src="music/dj1.mp3"></audio>
+      <button class="pay-btn" onclick="document.getElementById('modal-pay-dj').style.display='block'">Заявка + Оплата онлайн</button>
+    </div>
+    <div class="card">
+      <img src="images/dj2.jpg" alt="DJ Lera Sound">
+      <h3>DJ Лера Sound</h3>
+      <div class="skills">R&B, POP, Disco, авторское RnB шоу</div>
+      <div class="desc">Клубы, свадьбы, индивидуальные вечеринки. Креативные перебивки.</div>
+      <div class="price">от 11 000 ₽</div>
+      <audio controls><source src="music/dj2.mp3"></audio>
+      <button class="pay-btn" onclick="document.getElementById('modal-pay-dj').style.display='block'">Заявка + Оплата онлайн</button>
+    </div>
+  </div>
+
+  <div id="modal-pay-dj" style="display:none;position:fixed;left:0;top:0;width:100vw;height:100vh;background:rgba(30,30,40,0.92);z-index:5000;">
+    <div style="max-width:340px;margin:90px auto;background:#32395C;padding:26px 18px;border-radius:15px;box-shadow:0 6px 24px #181A2B;">
+      <h2 style="color:gold;">Заявка и онлайн оплата</h2>
+      <form id="zayavkaFormDJ" onsubmit="event.preventDefault();document.getElementById('paybox-tinkoff-dj').style.display='block';">
+        <input type="text" id="djName" placeholder="Имя" required style="width:98%;margin-bottom:10px;">
+        <input type="email" id="djEmail" placeholder="E-mail" required style="width:98%;margin-bottom:10px;">
+        <input type="tel" id="djPhone" placeholder="Телефон" required style="width:98%;margin-bottom:10px;">
+        <input type="date" id="djDate" required style="width:98%;margin-bottom:12px;">
+        <button style="background:gold;color:#23253a;border-radius:8px;padding:9px 18px;">Продолжить</button>
+      </form>
+      <div id="paybox-tinkoff-dj" style="display:none;margin-top:17px;">
+        <form action="https://securepay.tinkoff.ru/invoice/..." method="POST" target="_blank">
+          <input type="hidden" name="terminalkey" value="ТВОЙ_TERMINAL_KEY">
+          <input type="hidden" name="amount" value="140000">
+          <input type="hidden" name="description" value="Бронирование DJ Alex Wave">
+          <input type="hidden" name="name" id="tinkDJName">
+          <input type="hidden" name="email" id="tinkDJEmail">
+          <input type="hidden" name="phone" id="tinkDJPhone">
+          <button type="submit" style="background:gold;color:#23253a;border-radius:8px;padding:10px 28px;">Оплатить бронь</button>
+        </form>
+      </div>
+      <button onclick="document.getElementById('modal-pay-dj').style.display='none';document.getElementById('paybox-tinkoff-dj').style.display='none';" style="margin-top:23px;background:#262D47;color:#FFD700;border-radius:6px;padding:9px 20px;">Закрыть</button>
+    </div>
+  </div>
+  <script>
+    document.getElementById('zayavkaFormDJ').onsubmit = function(){
+      document.getElementById('tinkDJName').value = document.getElementById('djName').value;
+      document.getElementById('tinkDJEmail').value = document.getElementById('djEmail').value;
+      document.getElementById('tinkDJPhone').value = document.getElementById('djPhone').value;
+    }
+  </script>
+</body>
+</html>

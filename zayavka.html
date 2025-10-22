@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>Оставить заявку</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      background-color: #111;
+      color: white;
+      font-family: sans-serif;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+    }
+
+    h1 {
+      color: gold;
+      margin-bottom: 20px;
+    }
+
+    form {
+      background: #222;
+      display: inline-block;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 400px;
+      width: 100%;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 5px;
+      border: none;
+    }
+
+    button {
+      background: gold;
+      color: black;
+      font-weight: bold;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-top: 20px;
+      color: gold;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <h1>Оставить заявку</h1>
+
+  <form action="#" method="POST" onsubmit="alert('Заявка отправлена!'); return false;">
+    <input type="text" name="name" placeholder="Ваше имя" required />
+    <input type="tel" name="phone" placeholder="Телефон" required />
+    <input type="email" name="email" placeholder="Email" />
+    <textarea name="message" rows="4" placeholder="Описание услуги / ваш опыт / цены" required></textarea>
+    <button type="submit">Отправить заявку</button>
+  </form>
+
+  <br />
+  <a class="back-link" href="vedushie.html">← Назад к ведущим</a>
+</body>
+</html>

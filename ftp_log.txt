@@ -1,0 +1,11 @@
+ftp> open ftp.imperiya-torzhestv.ru
+ftp.imperiya-torzhestv.ru: неизвестный узел.
+ftp> ivan.vlas5@yandex.ru	
+Недопустимая команда.
+ftp> Vlas1979!
+Недопустимая команда.
+ftp> binary
+Нет связи.
+ftp> put site.zip
+Нет связи.
+ftp> bye

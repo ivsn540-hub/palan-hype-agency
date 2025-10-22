@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Добавить карточку ведущего</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background-color: #111;
+      color: white;
+      padding: 40px;
+    }
+    h1 { color: gold; }
+    form {
+      background-color: #222;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 500px;
+      margin: auto;
+    }
+    label, input, textarea, select {
+      display: block;
+      width: 100%;
+      margin-bottom: 15px;
+    }
+    input, textarea, select {
+      padding: 8px;
+      border: none;
+      border-radius: 6px;
+    }
+    button {
+      background: gold;
+      color: black;
+      font-weight: bold;
+      padding: 10px;
+      width: 100%;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Добавить карточку ведущего</h1>
+
+<form action="mailto:ivan.vlas5@yandex.ru" method="POST" enctype="text/plain">
+  <label>Имя</label>
+  <input type="text" name="Имя" required>
+
+  <label>Описание</label>
+  <textarea name="Описание" rows="4" placeholder="О себе, стаж, города, стиль..."></textarea>
+
+  <label>Город</label>
+  <input type="text" name="Город" value="Чебоксары">
+
+  <label>Цена от (₽)</label>
+  <input type="number" name="Цена" placeholder="Пример: 20000">
+
+  <label>Фото профиля (вставьте ссылку на фото)</label>
+  <input type="url" name="Фото">
+
+  <label>Ссылка на музыку / плейлист</label>
+  <input type="url" name="Музыка">
+
+  <button type="submit">Отправить заявку</button>
+</form>
+
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Panel | HYPE MARKETPLACE</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {background:#23244a;color:#fff;font-family:'Montserrat',Arial,sans-serif;margin:0;padding:32px;}
+    h1{color:gold;text-align:center;font-size:2.2em;letter-spacing:2px;border-bottom:2px solid #FFD700;margin-bottom:36px;}
+    h2{color:#FFD700;margin:38px 0 18px 0;}
+    .cards{display:flex;flex-wrap:wrap;gap:26px;justify-content:center;}
+    .card{background:#32395C;border-radius:14px;box-shadow:0 6px 24px #181A2B;padding:16px;width:310px;display:flex;flex-direction:column;align-items:center;position:relative;}
+    .card img{width:80px;height:80px;border-radius:50%;object-fit:cover;border:2px solid gold;margin-bottom:10px;}
+    .card h3{color:gold;font-size:1.1em;margin-bottom:6px;}
+    .card .skills{color:orange;font-size:.98em;margin-bottom:7px;}
+    .card .desc{font-size:.95em;color:#eee;text-align:center;margin-bottom:8px;}
+    .card .price{color:#92edff;font-weight:bold;margin-bottom:8px;}
+    .adm-btn{background:#FFD700;color:#23253a;font-weight:bold;border:none;background:#FFD700;border-radius:8px;padding:7px 18px;margin:5px 0;cursor:pointer;transition:.2s;}
+    .adm-btn:hover{background:orange;}
+    .hidden{opacity:0.3;pointer-events:none;}
+    .vip-tag{position:absolute;top:-8px;left:-8px;background:gold;color:#191919;font-size:13px;font-weight:bold;padding:5px 10px;border-radius:7px;}
+    audio{width:95%;margin-bottom:4px;}
+  </style>
+</head>
+<body>
+  <h1>Административная панель управления</h1>
+
+  <h2>Ведущие</h2>
+  <div class="cards" id="hosts"></div>
+  <h2>Диджеи</h2>
+  <div class="cards" id="djs"></div>
+  <h2>Агенты</h2>
+  <div class="cards" id="agents"></div>
+  <h2>Музыканты</h2>
+  <div class="cards" id="musicians"></div>
+
+  <script>
+    // ДАННЫЕ (можно дополнять/менять структуру)
+    const DATA_KEY = 'event_admin_data_v1';
+    let defaultData = {
+      hosts: [
+        {name:'Ольга Осипова', vip:true, photo:'images/vedushaya.jpg', skills:'MC, шоу, вокал, корпоративы, свадьбы', desc:'Эксклюзив. 5+ лет опыта. Индивидуальная программа, высокий рейтинг.', price:'от 20 000 ₽', hidden:false, audio:['music/pelet-pelet.mp3','music/yuratap-tese.mp3']},
+        {name:'Дмитрий Шарап', photo:'images/default.jpg', skills:'Свадьбы, корпоративы, ведущий радио', desc:'8+ лет опыта. Яркая программа. Гарантия результата.', price:'от 18 000 ₽',hidden:false}
+      ],
+      djs: [
+        {name:'DJ Алекс Wave', photo:'images/dj1.jpg', skills:'House, Pop, Tech, Вокальное шоу', desc:'10+ лет на сцене, автор миксов для FM, оборудование.', price:'от 14 000 ₽',hidden:false,audio:['music/dj1.mp3']},
+      ],
+      agents: [
+        {name:'Ирина MIR', photo:'images/agent1.jpg', skills:'Организация событий, корпоративы', desc:'10+ лет практики, портфолио.', price:'от 24 000 ₽',hidden:false},
+      ],
+      musicians: [
+        {name:'Трио Viva Music', photo:'images/music1.jpg', skills:'Скрипка, фортепиано, вокал', desc:'Лауреаты международных конкурсов, классика, каверы', price:'от 15 000 ₽',hidden:false,audio:['music/music1.mp3']},
+      ]
+    };
+    // Загрузка и сохранение
+    function loadData() {
+      let data = localStorage.getItem(DATA_KEY);
+      return data ? JSON.parse(data) : defaultData;
+    }
+    function saveData(data) {
+      localStorage.setItem(DATA_KEY, JSON.stringify(data));
+    }
+    // Рендер
+    function renderSection(section, dataArr, domId) {
+      const box = document.getElementById(domId);
+      box.innerHTML = "";
+      dataArr.forEach((u, idx) => {
+        let card = document.createElement('div');
+        card.className = 'card'+(u.hidden?' hidden':'');
+        card.innerHTML = 
+          (u.vip?'<div class="vip-tag">VIP</div>':'') +
+          `<img src="${u.photo||'images/default.jpg'}" alt="${u.name}">
+          <h3>${u.name||''}</h3>
+          <div class="skills">${u.skills||''}</div>
+          <div class="desc">${u.desc||''}</div>
+          <div class="price">${u.price||''}</div>`
+          + (u.audio ? u.audio.map(link=>`<audio controls><source src="${link}"></audio>`).join('') : "")
+          + `<button class="adm-btn" onclick="deleteCard('${section}',${idx})">Удалить</button>
+             <button class="adm-btn" onclick="hideCard('${section}',${idx})">${u.hidden?'Показать':'Скрыть'}</button>`;
+        box.appendChild(card);
+      });
+    }
+    function renderAll() {
+      let data = loadData();
+      renderSection('hosts', data.hosts, 'hosts');
+      renderSection('djs', data.djs, 'djs');
+      renderSection('agents', data.agents, 'agents');
+      renderSection('musicians', data.musicians, 'musicians');
+    }
+    // Управление карточками
+    window.deleteCard = function(section, idx) {
+      let data = loadData();
+      data[section].splice(idx,1);
+      saveData(data);
+      renderAll();
+    }
+    window.hideCard = function(section, idx) {
+      let data = loadData();
+      data[section][idx].hidden = !data[section][idx].hidden;
+      saveData(data);
+      renderAll();
+    }
+    renderAll();
+  </script>
+</body>
+</html>

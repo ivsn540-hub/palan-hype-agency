@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>PALAN HYPE AGENCY | Универсальный маркетплейс с чатом</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { background: #232846; color: #fff; font-family: 'Montserrat', Arial, sans-serif; margin: 0;}
+    header { background: #232846; box-shadow: 0 2px 14px #13142C44; position: sticky; top: 0; z-index: 100;}
+    .brandbar { display: flex; align-items: center; justify-content: space-between; padding: 24px 32px 14px 32px; max-width:1460px;margin:0 auto;}
+    .logo-left { color: gold; font-size:2.15em;font-weight:bold;letter-spacing:1px;}
+    .main-nav button {
+      color: #FFD700; margin: 0 10px; font-weight: 700; text-decoration: none; font-size: 1.12em; background: none; border: none; cursor:pointer; transition:color .16s;
+    }
+    .main-nav button:hover { color: #0ebae9;}
+    .main-nav .active { color: #229ed9; border-bottom:2px solid #229ed9;}
+    .admin-btn {background:#222e57;color:#FFD700;padding:7px 16px;border-radius:10px;font-weight:700;margin-left:12px;}
+    .admin-btn:hover {background:#229ed9;color:#fff;}
+    .auth-bar { display: flex; gap: 16px;}
+    .auth-btn { background: #FFD700; color: #242424; border: none; border-radius: 9px; font-weight: bold; font-size: 1em; padding: 8px 19px; cursor: pointer; box-shadow: 0 2px 14px #333; transition: background .14s;}
+    .auth-btn:hover { background: #229ed9;color:#fff;}
+    .tg-topbar { text-align: center; background: #229ed9; color: #fff; font-weight: bold; font-size: 1.09em; padding: 11px 0 8px 0; }
+    .tg-topbar a {color:#fff;text-decoration:underline;font-weight:700;}
+    .under-tg {text-align:center; margin-bottom:26px;font-size:1.07em;color:#229ed9;}
+    h1 {color:gold;text-align:center;font-size:2em;margin:38px 0 28px 0;}
+    .cards, .musicians, .reviews, .contacts, .chat-section {display:none;}
+    .active-section {display:flex !important;}
+    .cards, .musicians {flex-wrap: wrap; gap: 32px; justify-content: center;max-width:1400px; margin:0 auto;}
+    .card, .musician-card {background: #32395C;border-radius: 15px;box-shadow: 0 6px 25px #181A2B33;padding: 27px 18px;width: 340px;display: flex;flex-direction: column;align-items: center;position: relative;margin-bottom:3vh;}
+    .vip-tag { position: absolute; top: -13px; left:-13px; background: gold; color: #232846; font-size: 14px; font-weight: bold; padding: 6px 14px; border-radius: 9px;}
+    .card img, .musician-card img { width: 116px; height: 116px; border-radius: 50%; object-fit: cover; border: 3px solid gold; margin-bottom: 15px;}
+    .card h3, .musician-card h3 { color: gold; font-size: 1.22em; margin-bottom: 6px; font-weight:bold;}
+    .card .skills, .musician-card .skills {color:orange;font-size:0.99em;margin-bottom:8px;}
+    .card .desc, .musician-card .desc {font-size:0.99em;color:#eee;text-align:center;margin-bottom:8px;}
+    .card .price, .musician-card .price {color:#92edff;font-weight:bold;margin-bottom:10px;}
+    .card .tg-channel, .musician-card .tg-channel {margin-bottom:9px;}
+    .card .tg-channel a, .musician-card .tg-channel a {background: #229ed9; color: #fff; text-decoration: none; font-weight: 600; border-radius: 7px; padding: 7px 19px; display: inline-block; margin:6px 0;}
+    .card .contacts, .musician-card .contacts {font-size: 1.02em; margin-bottom: 8px; color: #FFD700;text-align:center;}
+    .card .contacts a, .musician-card .contacts a {color:#ffd700;}
+    audio { width: 97%;margin-bottom: 4px;}
+    .pay-btn {background: gold; color: #23253a; border-radius: 8px; font-weight: bold; padding: 12px 19px; box-shadow: 0 2px 14px #333; margin-top: 12px; margin-bottom: 8px; cursor: pointer; border: none;font-size:1.09em;}
+    .reviews, .contacts {flex-direction:column;align-items:center;gap:26px;}
+    .review {background:#283060;border-radius:13px;padding:21px;max-width:500px;font-size:1.07em;box-shadow:0 2px 12px #181A2B33;}
+    .contacts {font-size:1.13em;padding:22px;}
+    .contacts a {color:#229ed9;}
+    .modal {display:none;position:fixed;left:0;top:0;width:100vw;height:100vh;background:rgba(16,18,24,0.98);z-index:8000;}
+    .modal-content {max-width:340px;margin:90px auto;background:#32395C;padding:30px 17px 27px 17px;border-radius:20px;}
+    .modal-content h2 {color:gold;}
+    .section-title {text-align:center;color:gold;}
+    .chat-section{flex-direction:column;align-items:center;gap:16px;}
+    #chat-window {width:98%;max-width:700px;height:340px;background:#32395C;border-radius:13px;padding:19px 13px;overflow-y:auto;font-size:1.08em;box-shadow:0 2px 13px #171A2B55;margin-bottom:17px;}
+    #chat-form{display:flex;gap:7px;width:98%;max-width:700px;margin-bottom:12px;}
+    #chat-form select,#chat-form input{font-size:1em;}
+    @media (max-width:900px){
+      .brandbar{flex-direction:column;gap:14px;}
+      .main-nav button{margin:0 7px;}
+      .cards, .musicians{gap:17px;}
+      .card, .musician-card{width:98vw;max-width:350px;}
+      body{padding:0;}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brandbar">
+      <div class="logo-left">PALAN HYPE AGENCY</div>
+      <nav class="main-nav">
+        <button id="nav-main" onclick="showSection('main')">Главная</button>
+        <button id="nav-hosts" onclick="showSection('hosts')">Ведущие</button>
+        <button id="nav-musicians" onclick="showSection('musicians')">Музыканты</button>
+        <button id="nav-chat" onclick="showSection('chat')">Чат</button>
+        <button id="nav-reviews" onclick="showSection('reviews')">Отзывы</button>
+        <button id="nav-contacts" onclick="showSection('contacts')">Контакты</button>
+        <button class="admin-btn" onclick="document.getElementById('modal-admin').style.display='block'">Админка</button>
+        <a href="https://t.me/RX7mBatogqBiMzA6ht" target="_blank" style="background:#229ed9;color:#fff;padding:5px 13px;border-radius:10px;font-weight:700;">🔔 Telegram</a>
+      </nav>
+      <div class="auth-bar">
+        <button class="auth-btn" onclick="document.getElementById('modal-login').style.display='block'">Войти</button>
+        <button class="auth-btn" onclick="document.getElementById('modal-register').style.display='block'">Регистрация</button>
+      </div>
+    </div>
+    <div class="tg-topbar">
+      🔔 Наш Telegram-канал <a href="https://t.me/RX7mBatogqBiMzA6ht" target="_blank">PALAN Agency Events Чувашия</a>
+    </div>
+    <div class="under-tg">Все акции, лучшие мастера, свежие анонсы — только здесь!</div>
+  </header>
+  <div id="section-main" class="active-section" style="flex-direction:column;align-items:center;gap:22px;">
+    <h1>PALAN Hype Agency — современный маркетплейс артистов</h1>
+    <div style="font-size:1.15em;background:#32395C;padding:33px 27px;border-radius:17px;box-shadow:0 8px 38px #171B3288;max-width:620px;">
+      Добро пожаловать! Здесь вы можете быстро найти ведущего, музыканта или шоу для вашего мероприятия, оставить заявку и оплатить онлайн.
+    </div>
+  </div>
+  <div id="section-hosts" class="cards">
+    <div class="card">
+      <div class="vip-tag">VIP</div>
+      <img src="images/vedushaya.jpg" alt="Ольга Осипова">
+      <h3>Ольга Осипова</h3>
+      <div class="skills">MC, шоу, вокал, корпоративы, свадьбы</div>
+      <div class="desc">Эксклюзив. 5+ лет опыта. Индивидуальная программа, высокий рейтинг.</div>
+      <div class="price">от 20 000 ₽</div>
+      <div class="tg-channel"><a href="https://t.me/RX7mBatogqBiMzA6ht" target="_blank">📢 Telegram-канал PALAN Agency Events Чувашия</a></div>
+      <div class="contacts"><a href="tel:89093049440">8 909 304 9440</a><br><a href="mailto:olga.fire@bk.ru">olga.fire@bk.ru</a></div>
+      <audio controls><source src="music/pelet-pelet.mp3"></audio>
+      <audio controls><source src="music/yuratap-tese.mp3"></audio>
+      <button class="pay-btn" onclick="document.getElementById('modal-pay').style.display='block'">Заявка + Оплата онлайн</button>
+    </div>
+  </div>
+  <div id="section-musicians" class="musicians">
+    <div class="musician-card">
+      <img src="images/musician1.jpg" alt="Антон Мелодин">
+      <h3>Антон Мелодин</h3>
+      <div class="skills">Гитара, вокал, кавер-бэнд</div>
+      <div class="desc">TOP-10 музыкантов region 2024. Оживите свой вечер живой музыкой!</div>
+      <div class="price">от 10 000 ₽/час</div>
+      <audio controls><source src="music/melodin.mp3"></audio>
+    </div>
+  </div>
+  <div id="section-chat" class="chat-section">
+    <h1>Чат заявок</h1>
+    <div id="chat-window"></div>
+    <form id="chat-form" onsubmit="sendChat(event)">
+      <select id="chat-role" required>
+        <option value="">Роль</option>
+        <option value="Клиент">Клиент</option>
+        <option value="Ведущий">Ведущий</option>
+      </select>
+      <input type="text" id="chat-name" placeholder="Ваше имя" required>
+      <input type="text" id="chat-msg" placeholder="Введите заявку или ответ..." required>
+      <button class="auth-btn" type="submit">Отправить</button>
+    </form>
+  </div>
+  <div id="section-reviews" class="reviews">
+    <div class="section-title">Отзывы о PALAN Hype Agency</div>
+    <div class="review">Все понравилось! Оперативно подобрали ведущего, всё прошло супер. Спасибо! <br><b>— Анастасия</b></div>
+    <div class="review">Крутые ребята, помогли организовать корпоратив буквально за 2 дня. Telegram-канал класс! <br><b>— Дмитрий</b></div>
+  </div>
+  <div id="section-contacts" class="contacts">
+    <div class="section-title">Контакты</div>
+    Email: <a href="mailto:contact@palan-agency.ru">contact@palan-agency.ru</a>
+    <br>
+    Telegram-канал: <a href="https://t.me/RX7mBatogqBiMzA6ht" target="_blank">@PALAN Agency Events Чувашия</a>
+    <br>
+    <b>Адрес:</b> Москва, ул. Реальная, 21, офис 5B
+  </div>
+  <div id="modal-admin" class="modal"><div class="modal-content">
+    <h2>Админка</h2>
+    <button class="auth-btn" style="margin-bottom:7px;width:95%;" onclick="alert('Добавить функционал позже!')">Управлять ведущими/музыкантами</button>
+    <button class="auth-btn" style="margin-bottom:7px;width:95%;" onclick="alert('Добавить функционал позже!')">Просмотр заявок</button>
+    <button class="auth-btn" style="width:95%;" onclick="alert('Добавить функционал позже!')">Статистика / отзывы</button>
+    <button class="auth-btn" onclick="document.getElementById('modal-admin').style.display='none';">Закрыть</button>
+  </div></div>
+  <div id="modal-login" class="modal"><div class="modal-content">
+    <h2>Вход в аккаунт</h2>
+    <form onsubmit="event.preventDefault();alert('Вход реализуем позже');"><input type="email" placeholder="E-mail" required style="width:98%;margin-bottom:12px;"><input type="password" placeholder="Пароль" required style="width:98%;margin-bottom:12px;"><button class="auth-btn" type="submit">Войти</button></form>
+    <div style="text-align:center;margin-top:13px;">
+      <button class="auth-btn" style="background:#229ed9;color:#fff;" onclick="showModal('register')">Регистрация</button>
+    </div>
+    <button onclick="closeAllModals()" style="margin-top:23px;background:#262D47;color:#FFD700;border-radius:6px;padding:9px 20px;">Закрыть</button></div></div>
+  <div id="modal-register" class="modal"><div class="modal-content">
+    <h2>Регистрация нового пользователя</h2>
+    <form onsubmit="event.preventDefault();alert('Регистрация реализуется позже');"><input type="text" placeholder="Ваше имя" required style="width:98%;margin-bottom:12px;"><input type="email" placeholder="E-mail" required style="width:98%;margin-bottom:12px;"><input type="password" placeholder="Пароль" required style="width:98%;margin-bottom:12px;"><select required style="width:98%;margin-bottom:15px;"><option value="">Я — ...</option><option value="client">Клиент/Заказчик</option><option value="host">Ведущий/Артист</option></select><button class="auth-btn" type="submit">Зарегистрироваться</button></form>
+    <div style="text-align:center;margin-top:11px;">
+      <button class="auth-btn" style="background:#229ed9;color:#fff;" onclick="showModal('login')">Есть аккаунт – Войти</button>
+    </div>
+    <button onclick="closeAllModals()" style="margin-top:23px;background:#262D47;color:#FFD700;border-radius:6px;padding:9px 20px;">Закрыть</button></div></div>
+  <div id="modal-pay" class="modal"><div class="modal-content">
+    <h2 style="color:gold;">Заявка и онлайн оплата</h2>
+    <form id="zayavkaForm" onsubmit="event.preventDefault();document.getElementById('paybox-tinkoff').style.display='block';">
+      <input type="text" id="payName" placeholder="Имя" required style="width:98%;margin-bottom:10px;">
+      <input type="email" id="payEmail" placeholder="E-mail" required style="width:98%;margin-bottom:10px;">
+      <input type="tel" id="payPhone" placeholder="Телефон" required style="width:98%;margin-bottom:10px;">
+      <input type="date" id="payDate" required style="width:98%;margin-bottom:12px;">
+      <button style="background:gold;color:#23253a;border-radius:8px;padding:9px 18px;">Продолжить</button>
+    </form>
+    <div id="paybox-tinkoff" style="display:none;margin-top:17px;">
+      <form action="https://securepay.tinkoff.ru/invoice/..." method="POST" target="_blank">
+        <input type="hidden" name="terminalkey" value="ТВОЙ_TERMINAL_KEY">
+        <input type="hidden" name="amount" value="20000">
+        <input type="hidden" name="description" value="Бронирование ведущего">
+        <input type="hidden" name="name" id="tinkName">
+        <input type="hidden" name="email" id="tinkEmail">
+        <input type="hidden" name="phone" id="tinkPhone">
+        <button type="submit" style="background:gold;color:#23253a;border-radius:8px;padding:10px 28px;">Оплатить бронь</button>
+      </form>
+    </div>
+    <button onclick="closeAllModals()" style="margin-top:23px;background:#262D47;color:#FFD700;border-radius:6px;padding:9px 20px;">Закрыть</button>
+  </div></div>
+<script>
+  function showSection(name) {
+    let ids = ['main', 'hosts', 'musicians', 'reviews', 'contacts', 'chat'];
+    ids.forEach(s => {
+      let el = document.getElementById('section-'+s);
+      if (el) { el.classList.remove('active-section'); el.style.display="none"; }
+      let navBtn = document.getElementById('nav-'+s);
+      if(navBtn) navBtn.classList.remove('active');
+    });
+    let target=document.getElementById('section-'+name);
+    if(target){target.classList.add('active-section'); target.style.display="flex";}
+    let navBtn = document.getElementById('nav-'+name);
+    if(navBtn) navBtn.classList.add('active');
+  }
+  function closeAllModals() {
+    document.querySelectorAll('.modal').forEach(m=>m.style.display="none");
+  }
+  function showModal(kind) {
+    closeAllModals();
+    document.getElementById('modal-'+kind).style.display='block';
+  }
+  document.getElementById('zayavkaForm').onsubmit = function(){
+    document.getElementById('tinkName').value = document.getElementById('payName').value;
+    document.getElementById('tinkEmail').value = document.getElementById('payEmail').value;
+    document.getElementById('tinkPhone').value = document.getElementById('payPhone').value;
+  }
+  function sendChat(e){
+    e.preventDefault();
+    let role = document.getElementById('chat-role').value;
+    let name = document.getElementById('chat-name').value;
+    let msg = document.getElementById('chat-msg').value;
+    if(!role || !name || !msg)return;
+    let chat = document.getElementById('chat-window');
+    let time = new Date().toLocaleTimeString().slice(0,5);
+    let color = role==='Ведущий'?'#FFD700':'#00d8ff';
+    chat.innerHTML += `<div style="margin-bottom:8px;"><span style="color:`+color+`;font-weight:bold;">[${role}] ${name}</span>: ${msg} <span style="color:#999;font-size:.97em;">${time}</span></div>`;
+    chat.scrollTop = chat.scrollHeight;
+    document.getElementById('chat-msg').value='';
+  }
+  showSection('main');
+</script>
+</body>
+</html>
