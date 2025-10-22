@@ -31,16 +31,13 @@
     .chat-section{flex-direction:column;align-items:center;gap:16px;}
     .admin-zayavki-list{margin:0;padding:0;}
     .admin-zayavki-list>li{margin-bottom:1em;}
-    /* ... Остальной твой дизайн ... */
   </style>
 </head>
 <body>
   <header>
     <div class="brandbar">
       <div class="logo-left">PALAN HYPE AGENCY</div>
-      <!-- Меню -->
       <nav class="main-nav">
-        <!-- Все секции, admin, telegram, ... -->
         <button id="nav-main" onclick="showSection('main')">Главная</button>
         <button id="nav-hosts" onclick="showSection('hosts')">Ведущие</button>
         <button id="nav-musicians" onclick="showSection('musicians')">Музыканты</button>
@@ -61,12 +58,104 @@
     <div class="under-tg">Все акции, лучшие мастера, свежие анонсы — только здесь!</div>
   </header>
 
+  <!-- Главная -->
+  <div id="section-main" class="active-section" style="flex-direction:column;align-items:center;gap:22px;">
+    <h1>PALAN Hype Agency — современный маркетплейс артистов</h1>
+    <div style="font-size:1.15em;background:#32395C;padding:33px 27px;border-radius:17px;box-shadow:0 8px 38px #171B3288;max-width:620px;">
+      Добро пожаловать! Здесь вы можете быстро найти ведущего, музыканта или шоу для вашего мероприятия, оставить заявку и оплатить онлайн.
+    </div>
+  </div>
+  <div id="section-hosts" class="cards"></div>
+  <div id="section-musicians" class="musicians"></div>
+  <div id="section-chat" class="chat-section" style="display:none;">
+    <h1>Чат заявок</h1>
+    <div id="chat-window"></div>
+    <form id="chat-form">
+      <select id="chat-role" required>
+        <option value="">Роль</option>
+        <option value="Клиент">Клиент</option>
+        <option value="Ведущий">Ведущий</option>
+        <option value="Админ">Админ</option>
+      </select>
+      <input type="text" id="chat-name" placeholder="Ваше имя" required>
+      <input type="text" id="chat-msg" placeholder="Введите заявку или ответ..." required>
+      <button class="auth-btn" type="submit">Отправить</button>
+    </form>
+  </div>
+  <div id="section-reviews" class="reviews"></div>
+  <div id="section-contacts" class="contacts">
+    <div class="section-title">Контакты</div>
+    Email: <a href="mailto:contact@palan-agency.ru">contact@palan-agency.ru</a>
+    <br>
+    Telegram-канал: <a href="https://t.me/RX7mBatogqBiMzA6ht" target="_blank">@PALAN Agency Events Чувашия</a>
+    <br>
+    <b>Адрес:</b> Москва, ул. Реальная, 21, офис 5B
+  </div>
   <!-- Личный кабинет -->
   <div id="cabinetContainer"></div>
   <!-- Админка -->
   <div id="adminSection" style="display:none"></div>
-script>
-// Firebase конфиг и инициализация
+  <!-- Модальные окна -->
+  <div id="modal-login" class="modal">
+    <div class="modal-content">
+      <h2>Вход в аккаунт</h2>
+      <form id="loginForm">
+        <input type="email" id="loginEmail" placeholder="E-mail" required style="width:98%;margin-bottom:12px;">
+        <input type="password" id="loginPassword" placeholder="Пароль" required style="width:98%;margin-bottom:12px;">
+        <button class="auth-btn" type="submit">Войти</button>
+      </form>
+      <div style="text-align:center;margin-top:13px;">
+        <button class="auth-btn" style="background:#229ed9;color:#fff;" onclick="showModal('register')">Регистрация</button>
+      </div>
+      <button onclick="closeAllModals()" style="margin-top:23px;background:#262D47;color:#FFD700;border-radius:6px;padding:9px 20px;">Закрыть</button>
+    </div>
+  </div>
+  <div id="modal-register" class="modal">
+    <div class="modal-content">
+      <h2>Регистрация нового пользователя</h2>
+      <form id="regForm">
+        <input type="text" id="regName" placeholder="Ваше имя" required style="width:98%;margin-bottom:12px;">
+        <input type="email" id="regEmail" placeholder="E-mail" required style="width:98%;margin-bottom:12px;">
+        <input type="password" id="regPassword" placeholder="Пароль" required style="width:98%;margin-bottom:12px;">
+        <select id="regRole" required style="width:98%;margin-bottom:15px;">
+          <option value="">Я — ...</option>
+          <option value="client">Клиент/Заказчик</option>
+          <option value="host">Ведущий/Артист</option>
+          <option value="admin">Админ</option>
+        </select>
+        <button class="auth-btn" type="submit">Зарегистрироваться</button>
+      </form>
+      <div style="text-align:center;margin-top:11px;">
+        <button class="auth-btn" style="background:#229ed9;color:#fff;" onclick="showModal('login')">Есть аккаунт – Войти</button>
+      </div>
+      <button onclick="closeAllModals()" style="margin-top:23px;background:#262D47;color:#FFD700;border-radius:6px;padding:9px 20px;">Закрыть</button>
+    </div>
+  </div>
+  <div id="modal-pay" class="modal"><div class="modal-content">
+    <h2 style="color:gold;">Заявка и онлайн оплата</h2>
+    <form id="zayavkaForm">
+      <input type="text" id="payName" placeholder="Имя" required style="width:98%;margin-bottom:10px;">
+      <input type="email" id="payEmail" placeholder="E-mail" required style="width:98%;margin-bottom:10px;">
+      <input type="tel" id="payPhone" placeholder="Телефон" required style="width:98%;margin-bottom:10px;">
+      <input type="date" id="payDate" required style="width:98%;margin-bottom:12px;">
+      <button style="background:gold;color:#23253a;border-radius:8px;padding:9px 18px;">Продолжить</button>
+    </form>
+    <div id="paybox-tinkoff" style="display:none;margin-top:17px;">
+      <form action="https://securepay.tinkoff.ru/invoice/..." method="POST" target="_blank">
+        <input type="hidden" name="terminalkey" value="ТВОЙ_TERMINAL_KEY">
+        <input type="hidden" name="amount" value="20000">
+        <input type="hidden" name="description" value="Бронирование ведущего">
+        <input type="hidden" name="name" id="tinkName">
+        <input type="hidden" name="email" id="tinkEmail">
+        <input type="hidden" name="phone" id="tinkPhone">
+        <button type="submit" style="background:gold;color:#23253a;border-radius:8px;padding:10px 28px;">Оплатить бронь</button>
+      </form>
+    </div>
+    <button onclick="closeAllModals()" style="margin-top:23px;background:#262D47;color:#FFD700;border-radius:6px;padding:9px 20px;">Закрыть</button>
+  </div></div>
+
+<script>
+// ВСЁ НИЖЕ — твой JS целиком, без пропусков!
 const firebaseConfig = {
   apiKey: "AIzaSyB5a2nUB_buM9Sg_1RbUCmzIYCiTEYucSY",
   authDomain: "palan-hype.firebaseapp.com",
@@ -142,7 +231,6 @@ window.showCabinet = async function(){
   cab.style.display = 'block';
   let snap = await db.collection('users').doc(user.uid).get();
   let p = snap.exists ? snap.data() : {name:user.email,email:user.email,role:'client'};
-  // Личный кабинет + история заявок
   cab.innerHTML = `<div class="cabinet-box">
     <img class="cabinet-photo" src="${p.photo||'https://www.gravatar.com/avatar/'+user.email+'?s=96&d=identicon'}" /><br>
     <b>Профиль:</b><br>Имя: ${p.name}<br>Email: ${p.email}<br>Роль: ${p.role}
@@ -191,9 +279,8 @@ window.showCabinet = async function(){
   }
 };
 
-window.showCabinet(); // показать после входа
+window.showCabinet();
 
-// ОПЛАТА и ЗАЯВКА
 const zayavkaForm = document.getElementById('zayavkaForm');
 if(zayavkaForm) zayavkaForm.onsubmit = async function(e){
   e.preventDefault();
@@ -203,11 +290,9 @@ if(zayavkaForm) zayavkaForm.onsubmit = async function(e){
     let docRef = await db.collection('applications').add(app);
     document.getElementById('tinkName').value=name; document.getElementById('tinkEmail').value=email; document.getElementById('tinkPhone').value=phone;
     document.getElementById('paybox-tinkoff').style.display='block';
-    // Ждать колбэка банка невозможно front-only, но в админке будет отметка.
   }catch(err){alert('Ошибка: '+err.message);}
 };
 
-// ДИНАМИЧЕСКИЕ КАРТОЧКИ артистов и музыкантов
 async function loadArtists(){
   let hosts = document.getElementById('section-hosts'), musicians = document.getElementById('section-musicians');
   let q = await db.collection('artists').get(); let arr=[], mrr=[];
@@ -228,7 +313,6 @@ async function loadArtists(){
 }
 loadArtists();
 
-// ДИНАМИЧЕСКИЕ ОТЗЫВЫ
 async function loadReviews(){
   let rev = document.getElementById('section-reviews');
   let q = await db.collection('reviews').orderBy('created','desc').limit(12).get(); let arr=[];
@@ -241,7 +325,6 @@ async function loadReviews(){
 }
 loadReviews();
 
-// ЧАТ заявок (FireStore на applicationChats)
 const chatForm = document.getElementById('chat-form');
 if(chatForm)chatForm.onsubmit = async function(e){
   e.preventDefault();
@@ -262,15 +345,13 @@ async function renderChat(){
   chat.innerHTML = arr.join('');
 }
 renderChat();
-setInterval(renderChat,5000); // автообновление
+setInterval(renderChat,5000);
 
-// АДМИНКА (все заявки/отзывы/артисты)
 async function renderAdmin(){
   let sec=document.getElementById('adminSection');if(!sec)return;
   let user=auth.currentUser;if(!user){sec.innerHTML='Требуется авторизация'; return;}
   let snap=await db.collection('users').doc(user.uid).get();
   if(!snap.exists||snap.data().role!=='admin'){sec.innerHTML='Нет доступа!';return;}
-  // Заявки
   let apps = await db.collection('applications').orderBy('created','desc').limit(100).get();
   let usersnap=await db.collection('users').get(),users={};
   usersnap.forEach(u=>{users[u.id]={...u.data(),id:u.id};});
@@ -305,102 +386,7 @@ window.loadReviewsAdmin=async function(){
 window.delReview=async function(id){await db.collection('reviews').doc(id).delete();window.loadReviewsAdmin();}
 document.getElementById('adminSection').onclick=renderAdmin;
 
-// Переключение секций
 showSection('main');
 </script>
 </body>
 </html>
-  <div id="section-main" class="active-section" style="flex-direction:column;align-items:center;gap:22px;">
-    <h1>PALAN Hype Agency — современный маркетплейс артистов</h1>
-    <div style="font-size:1.15em;background:#32395C;padding:33px 27px;border-radius:17px;box-shadow:0 8px 38px #171B3288;max-width:620px;">
-      Добро пожаловать! Здесь вы можете быстро найти ведущего, музыканта или шоу для вашего мероприятия, оставить заявку и оплатить онлайн.
-    </div>
-  </div>
-
-  <div id="section-hosts" class="cards"></div>
-  <div id="section-musicians" class="musicians"></div>
-  <div id="section-chat" class="chat-section" style="display:none;">
-    <h1>Чат заявок</h1>
-    <div id="chat-window"></div>
-    <form id="chat-form">
-      <select id="chat-role" required>
-        <option value="">Роль</option>
-        <option value="Клиент">Клиент</option>
-        <option value="Ведущий">Ведущий</option>
-        <option value="Админ">Админ</option>
-      </select>
-      <input type="text" id="chat-name" placeholder="Ваше имя" required>
-      <input type="text" id="chat-msg" placeholder="Введите заявку или ответ..." required>
-      <button class="auth-btn" type="submit">Отправить</button>
-    </form>
-  </div>
-  <div id="section-reviews" class="reviews"></div>
-  <div id="section-contacts" class="contacts">
-    <div class="section-title">Контакты</div>
-    Email: <a href="mailto:contact@palan-agency.ru">contact@palan-agency.ru</a>
-    <br>
-    Telegram-канал: <a href="https://t.me/RX7mBatogqBiMzA6ht" target="_blank">@PALAN Agency Events Чувашия</a>
-    <br>
-    <b>Адрес:</b> Москва, ул. Реальная, 21, офис 5B
-  </div>
-
-  <!-- МОДАЛЬНОЕ ОКНО ВХОДА/РЕГИСТРАЦИИ -->
-  <div id="modal-login" class="modal">
-    <div class="modal-content">
-      <h2>Вход в аккаунт</h2>
-      <form id="loginForm">
-        <input type="email" id="loginEmail" placeholder="E-mail" required style="width:98%;margin-bottom:12px;">
-        <input type="password" id="loginPassword" placeholder="Пароль" required style="width:98%;margin-bottom:12px;">
-        <button class="auth-btn" type="submit">Войти</button>
-      </form>
-      <div style="text-align:center;margin-top:13px;">
-        <button class="auth-btn" style="background:#229ed9;color:#fff;" onclick="showModal('register')">Регистрация</button>
-      </div>
-      <button onclick="closeAllModals()" style="margin-top:23px;background:#262D47;color:#FFD700;border-radius:6px;padding:9px 20px;">Закрыть</button>
-    </div>
-  </div>
-  <div id="modal-register" class="modal">
-    <div class="modal-content">
-      <h2>Регистрация нового пользователя</h2>
-      <form id="regForm">
-        <input type="text" id="regName" placeholder="Ваше имя" required style="width:98%;margin-bottom:12px;">
-        <input type="email" id="regEmail" placeholder="E-mail" required style="width:98%;margin-bottom:12px;">
-        <input type="password" id="regPassword" placeholder="Пароль" required style="width:98%;margin-bottom:12px;">
-        <select id="regRole" required style="width:98%;margin-bottom:15px;">
-          <option value="">Я — ...</option>
-          <option value="client">Клиент/Заказчик</option>
-          <option value="host">Ведущий/Артист</option>
-          <option value="admin">Админ</option>
-        </select>
-        <button class="auth-btn" type="submit">Зарегистрироваться</button>
-      </form>
-      <div style="text-align:center;margin-top:11px;">
-        <button class="auth-btn" style="background:#229ed9;color:#fff;" onclick="showModal('login')">Есть аккаунт – Войти</button>
-      </div>
-      <button onclick="closeAllModals()" style="margin-top:23px;background:#262D47;color:#FFD700;border-radius:6px;padding:9px 20px;">Закрыть</button>
-    </div>
-  </div>
-
-  <!-- МОДАЛЬНОЕ ОКНО ОПЛАТЫ (Привязка к заявке) -->
-  <div id="modal-pay" class="modal"><div class="modal-content">
-    <h2 style="color:gold;">Заявка и онлайн оплата</h2>
-    <form id="zayavkaForm">
-      <input type="text" id="payName" placeholder="Имя" required style="width:98%;margin-bottom:10px;">
-      <input type="email" id="payEmail" placeholder="E-mail" required style="width:98%;margin-bottom:10px;">
-      <input type="tel" id="payPhone" placeholder="Телефон" required style="width:98%;margin-bottom:10px;">
-      <input type="date" id="payDate" required style="width:98%;margin-bottom:12px;">
-      <button style="background:gold;color:#23253a;border-radius:8px;padding:9px 18px;">Продолжить</button>
-    </form>
-    <div id="paybox-tinkoff" style="display:none;margin-top:17px;">
-      <form action="https://securepay.tinkoff.ru/invoice/..." method="POST" target="_blank">
-        <input type="hidden" name="terminalkey" value="ТВОЙ_TERMINAL_KEY">
-        <input type="hidden" name="amount" value="20000">
-        <input type="hidden" name="description" value="Бронирование ведущего">
-        <input type="hidden" name="name" id="tinkName">
-        <input type="hidden" name="email" id="tinkEmail">
-        <input type="hidden" name="phone" id="tinkPhone">
-        <button type="submit" style="background:gold;color:#23253a;border-radius:8px;padding:10px 28px;">Оплатить бронь</button>
-      </form>
-    </div>
-    <button onclick="closeAllModals()" style="margin-top:23px;background:#262D47;color:#FFD700;border-radius:6px;padding:9px 20px;">Закрыть</button>
-  </div></div>
