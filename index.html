@@ -2,19 +2,27 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>PALAN HYPE AGENCY</title>
+  <title>PALAN HYPE AGENCY · Артисты, заявки, оплата, Ольга Осипова</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    body { background: #232846; color: #fff; font-family: 'Montserrat', Arial, sans-serif; margin: 0;}
-    .brandbar { display: flex; align-items: center; justify-content: space-between; padding: 24px 32px 14px 32px; }
-    .logo-left { color: gold; font-size:2.15em;font-weight:bold;}
-    .main-nav button, .admin-btn { background: none; border:none; color:#FFD700; font-weight:bold; margin:0 10px; font-size:1.1em; cursor:pointer;}
-    .auth-bar { display:flex; gap:12px;}
-    .auth-btn { background: #FFD700; color: #242424; border: none; border-radius: 9px; font-weight: bold; font-size: 1em; padding: 7px 19px; cursor:pointer;}
-    .main-nav .active { color:#229ed9; border-bottom:2px solid #229ed9;}
+    body { background: #232846; color: #fff; font-family:'Montserrat',sans-serif; margin:0;}
+    header { background:#232846; box-shadow:0 1px 10px #1a1b32; position:sticky;top:0;z-index:100; }
+    .brandbar { display:flex;align-items:center;justify-content:space-between; padding:22px 28px 13px;}
+    .logo-left { color: gold; font-size:2.05em;font-weight:bold; }
+    .main-nav button, .admin-btn { background:none;border:none;color:#FFD700;font-weight:700;margin:0 10px;font-size:1.1em;cursor:pointer;}
+    .main-nav .active { color:#229ed9; border-bottom:2px solid #229ed9; }
+    .auth-bar { display:flex; gap: 10px;}
+    .auth-btn { background: #FFD700; color: #232846; border:none;border-radius:8px; font-weight:bold; font-size:1em;padding:7px 16px;cursor:pointer;}
+    .promo-osipova {background:#283060;border-radius:17px;margin:18px;padding:20px 22px;box-shadow:0 0 19px #1114;}
+    .promo-osipova img {width:97px;float:left;margin-right:22px;border-radius:48px;border:3px solid gold;}
+    .promo-osipova .osipova-title {font-size:1.18em;font-weight:bold;color:gold;margin-bottom:4px;}
+    .promo-osipova .osipova-desc {color:#FFD700;}
     .section { display:none; flex-direction:column;}
-    .section.active { display:flex;}
-    /* Минимальные стили для проверки */
+    .section.active { display:flex; }
+    .card-host, .card-musician, .review {background:#313868;padding:19px;border-radius:13px;margin:11px 0;}
+    a {color:#00bceb;}
+    .section-title {color:gold;font-size:1.11em;font-weight:bold;margin-bottom:14px;}
+    ul {margin-left:0; padding-left:16px;}
   </style>
 </head>
 <body>
@@ -36,31 +44,86 @@
       </div>
     </div>
   </header>
+
+  <!-- ПРОМО ОСИПОВА -->
+  <div class="promo-osipova">
+    <img src="https://sun9-59.userapi.com/impg/1jDBiB-eNwIVbQTut4eFALc-CZM1d2Me5OFeYw/sjFjFv65Pj8.jpg?size=604x604&quality=95&sign=11c6eec512748111f818a419a17ceaa1&type=album" alt="Ольга Осипова">
+    <div class="osipova-title">Ольга Осипова — ведущая №1, лицо PALAN, ваша реклама и праздник на высшем уровне!</div>
+    <div class="osipova-desc">
+      Всегда на первом месте и в топе афиш!<br>
+      VK: <a href="https://vk.com/olga.osipova1991" target="_blank">olga.osipova1991</a><br>
+      Instagram: <a href="https://www.instagram.com/olga_osipova_1/" target="_blank">@olga_osipova_1</a><br>
+      Telegram канал: <a href="https://t.me/RX7mBatogqBiMzA6ht" target="_blank">@PALAN Agency Events Чувашия</a>
+    </div>
+  </div>
+  
   <div id="section-main" class="section active">
     <h2>PALAN Hype Agency — современный маркетплейс артистов</h2>
-    <div>Добро пожаловать! Найдите артиста, оставьте заявку и оплатите онлайн.</div>
+    <div>Добро пожаловать! Быстро найдите ведущего, музыканта или шоу, оставьте заявку и оплачивайте онлайн.<br>
+      <b>Присоединяйтесь к нашему <a href="https://t.me/RX7mBatogqBiMzA6ht" target="_blank">TELEGRAM-КАНАЛУ</a> — свежие анонсы, скидки и новости!</b>
+    </div>
   </div>
+  
   <div id="section-hosts" class="section">
-    <h2>Ведущие</h2>
+    <div class="section-title">Лучшие ведущие PALAN HYPE</div>
+    <div class="card-host">
+      <img src="https://sun9-59.userapi.com/impg/1jDBiB-eNwIVbQTut4eFALc-CZM1d2Me5OFeYw/sjFjFv65Pj8.jpg?size=604x604&quality=95&sign=11c6eec512748111f818a419a17ceaa1&type=album" style="width:72px;border-radius:44px;border:3px solid gold;float:left;margin-right:15px;">
+      <b style="color:gold;">Ольга Осипова</b><br>
+      Ведущая, организатор, исполнительница.<br>
+      VK: <a href="https://vk.com/olga.osipova1991" target="_blank">olga.osipova1991</a> | Instagram: <a href="https://www.instagram.com/olga_osipova_1/" target="_blank">@olga_osipova_1</a>
+      <div style="clear:both;"></div>
+    </div>
+    <div class="card-host">
+      <b style="color:gold;">Сергей Иванов</b><br>
+      Эмоциональный ведущий, эксперт по юбилеям.<br>
+      VK: <a href="https://vk.com/id199999999" target="_blank">id199999999</a>
+    </div>
   </div>
+
   <div id="section-musicians" class="section">
-    <h2>Музыканты</h2>
+    <div class="section-title">Музыканты и артисты PALAN HYPE</div>
+    <div class="card-musician">
+      <b style="color:gold;">DJ Max Law</b> — современная музыка, любые форматы<br>
+      Telegram: <a href="https://t.me/djmaxlaw" target="_blank">@djmaxlaw</a>
+    </div>
+    <div class="card-musician">
+      <b style="color:gold;">Анна Чиркова</b> — вокалистка, праздничные каверы<br>
+      VK: <a href="https://vk.com/id188888888" target="_blank">id188888888</a>
+    </div>
   </div>
+
   <div id="section-chat" class="section">
-    <h2>Чат заявок</h2>
+    <div class="section-title">Чат заявок и вопросы</div>
+    <div style="background:#232846;padding:19px;border-radius:12px;">
+      Для заявок и вопросов пишите <b>в Telegram PALAN:</b> <a href="https://t.me/RX7mBatogqBiMzA6ht" target="_blank">@PALAN Agency Events Чувашия</a>
+    </div>
   </div>
+
   <div id="section-reviews" class="section">
-    <h2>Отзывы</h2>
+    <div class="section-title">Отзывы</div>
+    <div class="review">Праздник удался! Ольга — топ!<br><b>— Юлия</b></div>
+    <div class="review">Спасибо агентству, всё было удобно и оперативно!<br><b>— Дмитрий</b></div>
   </div>
+
   <div id="section-contacts" class="section">
-    <h2>Контакты</h2>
-    Email: <a href="mailto:contact@palan-agency.ru">contact@palan-agency.ru</a>
+    <div class="section-title">Контакты для связи и рекламы</div>
+    <ul>
+      <li>Email: <a href="mailto:contact@palan-agency.ru">contact@palan-agency.ru</a></li>
+      <li>VK Ольги: <a href="https://vk.com/olga.osipova1991" target="_blank">olga.osipova1991</a></li>
+      <li>Instagram Ольги: <a href="https://www.instagram.com/olga_osipova_1/" target="_blank">@olga_osipova_1</a></li>
+      <li>Telegram-чат: <a href="https://t.me/RX7mBatogqBiMzA6ht" target="_blank">@PALAN Agency Events Чувашия</a></li>
+      <li>Адрес: Москва, ул. Реальная, 21 офис 5B</li>
+    </ul>
   </div>
   <div id="section-admin" class="section">
-    <h2>Админка</h2>
+    <div class="section-title">Админка PALAN (макет)</div>
+    <div style="background:#313868;padding:13px;border-radius:13px;">
+      Страница админки для модерации заявок и отзывов<br>
+      <a href="mailto:contact@palan-agency.ru">Почта для связи админа</a>
+    </div>
   </div>
+
   <script>
-    // Механизм переключения секций — работает безо всяких зависимостей
     function showSection(name) {
       ['main','hosts','musicians','chat','reviews','contacts','admin'].forEach(s=>{
         document.getElementById('section-'+s).classList.remove('active');
